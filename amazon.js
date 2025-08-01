@@ -44,15 +44,44 @@ products.forEach((product) => {
 
 					<div class="product-spacer"></div>
 
-					<div class="added-to-cart">
+					<div class="added-to-cart " >
 						<img src="images/icons/checkmark.png" />
 						Added
 					</div>
 
-					<button class="add-to-cart-button button-primary">Add to Cart</button>
+					<button class="add-to-cart-button button-primary js-addToCartBtn"  
+					data-product-name =" ${product.name}"
+					data-product-Id="${product.id}">Add to Cart</button>
 				</div>
 			</div>
     `;
 
 	productContainer.innerHTML += card;
+});
+
+//.querySelectorAll return nodelist
+let addToCartBtn = document.querySelectorAll(".js-addToCartBtn");
+
+addToCartBtn.forEach((button) => {
+	button.onclick = () => {
+		const productName = button.dataset.productName;
+
+		let matchingItem;
+		carts.forEach((item) => {
+			if (item.name === productName) {
+				matchingItem = item;
+			}
+		});
+		if (matchingItem) {
+			matchingItem.quantity += 1;
+		} else {
+			carts.push({
+				name: productName,
+				quantity: 1,
+			});
+		}
+
+		alert(productName);
+		console.log(carts);
+	};
 });
