@@ -1,3 +1,6 @@
+import { carts } from "../data/carts.js";
+import { products } from "./data/products.js";
+
 let productContainer = document.querySelector(".jsProducts");
 
 // For each product inside product[], we create a card.
