@@ -1,4 +1,4 @@
-import { carts } from "../data/carts.js";
+import { carts, addCart } from "../data/carts.js";
 import { products } from "./data/products.js";
 
 let productContainer = document.querySelector(".jsProducts");
@@ -63,6 +63,27 @@ products.forEach((product) => {
 	productContainer.innerHTML += card;
 });
 
+function updateTotalQuantity() {
+	let totalQuantity = 0;
+
+	carts.forEach((item) => {
+		totalQuantity += item.quantity;
+	});
+
+	document.querySelector(".js-cart-quantity").innerHTML = totalQuantity;
+}
+
+function updateCartStatus(button) {
+	const productCard = button.closest(".product-container");
+	const addedBtn = productCard.querySelector(".js-added-to-cart");
+
+	addedBtn.classList.add("js-added");
+
+	setTimeout(() => {
+		addedBtn.classList.remove("js-added");
+	}, 2000);
+}
+
 //.querySelectorAll return nodelist
 let addToCartBtn = document.querySelectorAll(".js-addToCartBtn");
 //What will happen inside each button?
@@ -71,47 +92,15 @@ addToCartBtn.forEach((button) => {
 		const productName = button.dataset.productName;
 		const productId = button.dataset.productId;
 
-		// Get current product card in the button
-		const productCard = button.closest(".product-container");
-
-		//Added to cart showed up after the button is clicked
-		const addedBtn = productCard.querySelector(".js-added-to-cart");
-		addedBtn.classList.add("js-added");
-		setTimeout(() => {
-			addedBtn.classList.remove("js-added");
-		}, 2000);
 		// Selector for product quantity
 
-		let selectorInput = document.querySelector(
-			`.js-quantity-selector-${productId}`
-		);
-		let selector = Number(selectorInput.value);
-
 		//Condition to prevent product duplication
-
-		let matchingItem;
-		carts.forEach((item) => {
-			if (item.id === productId) {
-				matchingItem = item;
-			}
-		});
-		if (matchingItem) {
-			matchingItem.quantity += selector;
-		} else {
-			carts.push({
-				name: productName,
-				id: productId,
-				quantity: selector,
-			});
-		}
+		addCart(productId);
 
 		//Calculation of the total quantity selected
-		let totalQuantity = 0;
+		updateTotalQuantity();
 
-		carts.forEach((item) => {
-			totalQuantity += item.quantity;
-		});
-
-		document.querySelector(".js-cart-quantity").innerHTML = totalQuantity;
+		// update added status
+		updateCartStatus(button);
 	};
 });
