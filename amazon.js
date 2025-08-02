@@ -1,5 +1,5 @@
 import { carts, addCart } from "../data/carts.js";
-import { products } from "./data/products.js";
+import { products } from "../data/products.js";
 
 let productContainer = document.querySelector(".jsProducts");
 
@@ -53,8 +53,7 @@ products.forEach((product) => {
 					</div>
 
 					<button class="add-to-cart-button button-primary js-addToCartBtn"  
-					data-product-name =" ${product.name}
-					"
+					
 					data-product-id="${product.id}">Add to Cart</button>
 				</div>
 			</div>
@@ -89,7 +88,6 @@ let addToCartBtn = document.querySelectorAll(".js-addToCartBtn");
 //What will happen inside each button?
 addToCartBtn.forEach((button) => {
 	button.onclick = () => {
-		const productName = button.dataset.productName;
 		const productId = button.dataset.productId;
 
 		// Selector for product quantity
